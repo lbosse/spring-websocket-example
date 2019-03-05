@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<head>
+  <title>WhoIs Search</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+
+<body>
+  <form method="post" id = "domain_form" onsubmit="return false">
+    <label id="search_label" for="txt">Bulk Search</label>
+    <br>
+    <textarea id="txt" form = "domain_form" name="domains"></textarea>
+    <br>
+    <input id = "search_button" type = "submit" name="Search" value = "Search">
+  </form>
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/sockjs.min.js"></script>
+  <script type="text/javascript" src="js/webstomp.min.js"></script>
+  <script>
+    var stompClient = null;
+
+    function connect() {
+      var socket = new SockJS('http://localhost:8080/example');
+      stompClient = webstomp.over(socket);
+      stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/user/topic/echo', function (response) {
+        });
+      });
+    }
+
+    function disconnect() {
+      if (stompClient != null) {
+        stompClient.disconnect();
+      }
+      console.log("Disconnected");
+    }
+
+    function sendDomains() {
+      var str = $("#txt").val().trim();
+      stompClient.send("/app/echo", str, {});
+    }
+
+    $(function () {
+      connect();
+      $("#search_button").click(function () {
+        sendDomains();
+      });
+    });
+
+    window.onbeforeunload = function(event) {
+      console.log("refreshing");
+      disconnect();
+    };
+  </script>
+</body>
+</html>
+
+
