@@ -1,6 +1,7 @@
 package echo
 
 import com.fasterxml.jackson.annotation.JsonCreator
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.messaging.handler.annotation.SendTo
 import org.springframework.messaging.simp.SimpMessagingTemplate
@@ -42,12 +43,11 @@ open class Echo {
     fun echoWS(message: Message) {
         log.info("Got message: $message")
         val destination = "/topic/" + message.sessionId + "/echo"
-        log.info("destination: $destination")
         simpMessagingTemplate.convertAndSend(destination, message.body)
     }
 
     companion object {
-        val log = Logger.getLogger("Echo")
+        val log = LoggerFactory.getLogger(Echo::class.java)!!
     }
 
     data class Message (
