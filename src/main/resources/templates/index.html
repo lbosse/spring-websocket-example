@@ -46,7 +46,6 @@
 
     function sendDomains() {
       var str = $("#txt").val().trim();
-      //stompClient.send("/app/echo", str, {});
       fetch(url, {
         method: 'POST',
         headers: {
