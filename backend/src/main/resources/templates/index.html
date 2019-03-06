@@ -17,6 +17,7 @@
   <script type="text/javascript" src="js/webstomp.min.js"></script>
   <script>
     var url = 'http://localhost:8080/echo';
+    var sessionId = -1;
     var stompClient = null;
 
     function connect() {
@@ -24,7 +25,15 @@
       stompClient = webstomp.over(socket);
       stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/echo', function (response) {
+        var url = stompClient.ws._transport.url;
+        console.log('Your unique connection URL: ', url);
+        url = url.replace(
+                "ws://localhost:8080/example/",  "");
+        url = url.replace("/websocket", "");
+        url = url.replace(/^[0-9]+\//, "");
+        console.log("Your current session is: " + url);
+        sessionId = url;
+        stompClient.subscribe('/topic/' + sessionId +'/echo', function (response) {
         });
       });
     }
@@ -44,7 +53,7 @@
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ body: str })
+        body: JSON.stringify({ body: str, sessionId: sessionId })
       }).then(function() {console.log('successful POST')});
     }
 

@@ -32,6 +32,7 @@ open class Echo {
         log.info("Got POST: $message")
         val socketMsg = Message (
             body = message.body,
+            sessionId = message.sessionId,
             timestamp = Instant.now()
         )
         echoWS(socketMsg)
@@ -40,7 +41,9 @@ open class Echo {
 
     fun echoWS(message: Message) {
         log.info("Got message: $message")
-        simpMessagingTemplate.convertAndSend("/topic/echo", message.body)
+        val destination = "/topic/" + message.sessionId + "/echo"
+        log.info("destination: $destination")
+        simpMessagingTemplate.convertAndSend(destination, message.body)
     }
 
     companion object {
@@ -49,10 +52,12 @@ open class Echo {
 
     data class Message (
         val body: String,
+        val sessionId: String,
         val timestamp: Instant
     )
     data class NewMessage @JsonCreator constructor(
-        val body: String
+        val body: String,
+        val sessionId: String
     )
 
 }
