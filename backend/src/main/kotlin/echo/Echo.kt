@@ -1,18 +1,21 @@
 package echo
 
 import com.fasterxml.jackson.annotation.JsonCreator
-import org.springframework.messaging.handler.annotation.MessageMapping
-import org.springframework.messaging.simp.annotation.SendToUser
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.messaging.handler.annotation.SendTo
+import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import java.time.Instant
 import java.util.logging.Logger
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-import javax.xml.ws.Response
 
 @Controller
 open class Echo {
+
+    @Autowired
+    lateinit var simpMessagingTemplate: SimpMessagingTemplate
 
     @GetMapping("/")
     fun index(request: HttpServletRequest, response: HttpServletResponse): String {
@@ -33,16 +36,14 @@ open class Echo {
         )
         Thread.sleep(1000)
         // call echoWS with message as param to return to user over websocket
+        echoWS(socketMsg)
         return socketMsg
     }
 
-    @CrossOrigin
-    @MessageMapping("/echo")
-    @SendToUser("/topic/echo")
-    fun echoWS(message: String): String {
+    fun echoWS(message: Message) {
         log.info("Got message: $message")
         Thread.sleep(1000) // simulated delay
-        return message
+        simpMessagingTemplate.convertAndSend("/topic/echo", message.body)
     }
 
     companion object {
