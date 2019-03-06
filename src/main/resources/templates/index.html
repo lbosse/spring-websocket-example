@@ -7,10 +7,9 @@
 <body>
   <form method="post" id = "domain_form" onsubmit="return false">
     <label id="search_label" for="txt">Bulk Search</label>
+    <textarea id="txt" class="form-control" form = "domain_form" name="domains"></textarea>
     <br>
-    <textarea id="txt" form = "domain_form" name="domains"></textarea>
-    <br>
-    <input id = "search_button" type = "submit" name="Search" value = "Search">
+    <button id="search_button" class="btn btn-dark" type="submit" name="Search">Search</button>
   </form>
   <script type="text/javascript" src="js/jquery.min.js"></script>
   <script type="text/javascript" src="js/sockjs.min.js"></script>
