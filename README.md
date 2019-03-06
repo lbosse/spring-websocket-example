@@ -7,3 +7,6 @@ An example app that echoes a client's websocket message back.
 [Our STOMP Client Repo](https://github.com/JSteunou/webstomp-client)  
 [`let`, etc in Kotlin](https://medium.com/@elye.project/mastering-kotlin-standard-functions-run-with-let-also-and-apply-9cd334b0ef84)  
 [Building Kotlin with Maven](https://kotlinlang.org/docs/reference/using-maven.html)  
+[Spring Request/Response Body Annotations Explained](https://www.baeldung.com/spring-request-response-body)  
+[Spring Response Entity](https://www.baeldung.com/spring-response-entity)  
+[Send Websocket Message Back to a Specific User](https://www.baeldung.com/spring-websockets-send-message-to-user)  
