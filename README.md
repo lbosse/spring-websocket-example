@@ -1,5 +1,5 @@
 # Spring Websocket Example
-An example app that echoes a client's websocket message back.
+An example app that echoes a client's POST body back via a websocket.
 ## Resources  
 [Serving Static Content with Spring](https://spring.io/guides/gs/serving-web-content/)  
 [Using Websockets in a Spring Boot Application](https://spring.io/guides/gs/messaging-stomp-websocket/)  
