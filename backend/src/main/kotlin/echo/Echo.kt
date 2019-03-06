@@ -34,15 +34,12 @@ open class Echo {
             body = message.body,
             timestamp = Instant.now()
         )
-        Thread.sleep(1000)
-        // call echoWS with message as param to return to user over websocket
         echoWS(socketMsg)
         return socketMsg
     }
 
     fun echoWS(message: Message) {
         log.info("Got message: $message")
-        Thread.sleep(1000) // simulated delay
         simpMessagingTemplate.convertAndSend("/topic/echo", message.body)
     }
 

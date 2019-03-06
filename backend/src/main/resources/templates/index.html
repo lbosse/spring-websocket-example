@@ -16,6 +16,7 @@
   <script type="text/javascript" src="js/sockjs.min.js"></script>
   <script type="text/javascript" src="js/webstomp.min.js"></script>
   <script>
+    var url = 'http://localhost:8080/echo';
     var stompClient = null;
 
     function connect() {
@@ -37,7 +38,14 @@
 
     function sendDomains() {
       var str = $("#txt").val().trim();
-      stompClient.send("/app/echo", str, {});
+      //stompClient.send("/app/echo", str, {});
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ body: str })
+      }).then(function() {console.log('successful POST')});
     }
 
     $(function () {
