@@ -22,8 +22,4 @@ open class WebSocketConfig : WebSocketMessageBrokerConfigurer {
         registry!!.addEndpoint("/example").withSockJS()
     }
 
-    override fun configureWebSocketTransport(registration: WebSocketTransportRegistration?) {
-        registration!!.setSendBufferSizeLimit(512 * 1024)
-    }
-
 }
